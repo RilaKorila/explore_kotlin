@@ -1,2 +1,3 @@
 kotlin_streamlit/*
 __pycache__/*
+.DS_Store

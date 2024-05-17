@@ -33,3 +33,13 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
+# kotlin
+st.write("## kotlin")
+sort_option = st.radio("Sort by:", ("Default", "Name"), index=0, key="radio_for_kotlin")
+st.text("並び順: " + sort_option)
+
+fig = get_plot.diff_heatmap("kotlin", sort_option)
+fig.update_layout(title="kotlin: GitHub commits per month", xaxis_nticks=36)
+
+st.plotly_chart(fig, theme="streamlit", use_container_width=True)
