@@ -29,12 +29,10 @@ def read_csv(source_type):
 
 
 def read_loc_diff_csv(source_type):
-    if source_type == "coroutines":
-        fname = "data/coroutines/git_hisitory_logs-loc_each_month.csv"
-    elif source_type == "serialization":
-        fname = "data/serialization/git_hisitory_logs-loc_each_month.csv"
-    elif source_type == "kotlin":
+    if source_type == "kotlin":
         fname = "data/kotlin/git_hisitory_logs-loc_each_month_only_kt_before201207.csv"
+    elif source_type == "KEEP":
+        fname = "data/KEEP/git_hisitory_logs-loc_each_month.csv"
 
     with open(fname) as f:
         reader = csv.reader(f)
