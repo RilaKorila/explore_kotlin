@@ -1,10 +1,12 @@
+import pandas as pd
+import plotly.express as px
 import plotly.graph_objects as go
 
-from file_io import read_csv, read_loc_diff_csv
+import file_io
 
 
 def heatmap(source_type, sort_option):
-    hisotry = read_csv(source_type)
+    hisotry = file_io.read_csv(source_type)
     committed_filenames = hisotry.filenames
     committed_counts = hisotry.counts
 
@@ -28,7 +30,7 @@ def heatmap(source_type, sort_option):
 
 
 def diff_heatmap(source_type, sort_option):
-    hisotry = read_loc_diff_csv(source_type)
+    hisotry = file_io.read_loc_diff_csv(source_type)
     committed_filenames = hisotry.filenames
     committed_counts = hisotry.counts
     min_value = min(min(sublist) for sublist in committed_counts)
@@ -59,6 +61,55 @@ def diff_heatmap(source_type, sort_option):
         )
     )
 
+    return fig
+
+
+def line_chart():
+    # 除外するデータを選択
+    excluded_files = set(["llvm-project", "kandy", "dukat", "kotlin-spec"])
+
+    # データの準備
+    commit_counts = file_io.read_commit_coutns_csv()
+    all_counts = []
+    files = []
+    for commit_count in commit_counts:
+        if (
+            commit_count.filename in excluded_files
+            or "example" in commit_count.filename
+            or "workshop" in commit_count.filename
+        ):
+            continue
+        files.append(commit_count.filename)
+        all_counts.append(commit_count.counts)
+
+    dates = file_io.commit_counts_dates()
+
+    # データフレームの作成
+    chart_data = pd.DataFrame(all_counts).T
+    chart_data.columns = files
+    chart_data.index = dates
+
+    # インデックスをリセットして、'Date'列を作成
+    chart_data.reset_index(inplace=True)
+    chart_data.rename(columns={"index": "Date"}, inplace=True)
+
+    # Melt the dataframe to long format for plotly
+    chart_data_long = pd.melt(
+        chart_data,
+        id_vars=["Date"],
+        value_vars=files,
+        var_name="File",
+        value_name="Counts",
+    )
+
+    # Plotly Expressでラインチャートを描画
+    fig = px.line(
+        chart_data_long,
+        x="Date",
+        y="Counts",
+        color="File",
+        title="Commit Counts Over Time",
+    )
     return fig
 
 
