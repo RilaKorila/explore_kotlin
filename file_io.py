@@ -1,5 +1,6 @@
 import csv
 
+from commit_counts import CommitCounts
 from commit_history import CommitHistory
 
 
@@ -51,3 +52,30 @@ def read_loc_diff_csv(source_type):
             committed_counts.append([int(count) for count in counts])
 
     return CommitHistory(dates, committed_filenames, committed_counts)
+
+
+def read_commit_coutns_csv():
+    fname = "data/commit_counts_per_month.csv"
+
+    with open(fname) as f:
+        reader = csv.reader(f)
+        csv_lines = [row for row in reader]
+
+        commit_counts_list = []
+        for line in csv_lines[1:]:
+            counts = [int(count) for count in line[1:]]
+            commit_counts_list.append(CommitCounts(line[0], counts))
+
+    return commit_counts_list
+
+
+def commit_counts_dates():
+    fname = "data/commit_counts_per_month.csv"
+
+    with open(fname) as f:
+        reader = csv.reader(f)
+        csv_lines = [row for row in reader]
+
+        # csvのヘッダーを処理
+        filename, *dates = csv_lines[0]
+    return dates
