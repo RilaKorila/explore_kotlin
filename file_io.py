@@ -4,12 +4,7 @@ from commit_counts import CommitCounts
 from commit_history import CommitHistory
 
 
-def read_csv(source_type):
-    if source_type == "coroutines":
-        fname = "data/coroutines/git_hisitory_logs_each_month.csv"
-    elif source_type == "serialization":
-        fname = "data/serialization/git_hisitory_logs_each_month.csv"
-
+def read_csv(fname):
     with open(fname) as f:
         reader = csv.reader(f)
         csv_lines = [row for row in reader]

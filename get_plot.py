@@ -5,8 +5,8 @@ import plotly.graph_objects as go
 import file_io
 
 
-def heatmap(source_type, sort_option):
-    hisotry = file_io.read_csv(source_type)
+def heatmap(fname, sort_option):
+    hisotry = file_io.read_csv(fname)
     committed_filenames = hisotry.filenames
     committed_counts = hisotry.counts
 
@@ -20,9 +20,13 @@ def heatmap(source_type, sort_option):
         sorted_filenames = committed_filenames
         sorted_counts = committed_counts
 
+    colorscale = [
+        [0, "white"],  # 最小値の色
+        [1, "red"],  # 最大値の色
+    ]
     fig = go.Figure(
         data=go.Heatmap(
-            z=sorted_counts, x=hisotry.dates, y=sorted_filenames, colorscale="Reds"
+            z=sorted_counts, x=hisotry.dates, y=sorted_filenames, colorscale=colorscale
         )
     )
 
