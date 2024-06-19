@@ -114,6 +114,27 @@ fig.update_layout(
 
 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
+
+# KEEP
+st.write("## KEEP : 現状残っていないもの")
+fig = get_plot.diff_heatmap(
+    "data/KEEP/disappered/aggregated_git_log_changes_loc_only_proposal.csv",
+    sort_option_keep,
+)
+fig.update_layout(
+    title="KEEP: GitHub commits per month",
+    xaxis=dict(
+        tickangle=45,  # x軸のラベルを45度回転
+        tickmode="array",
+        dtick=1,  # すべてのラベルを表示
+    ),
+    margin=dict(t=50, l=50, r=50, b=200),
+    height=1000,
+    width=800,
+)
+
+st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
 ## line chart
 fig = get_plot.line_chart()
 st.plotly_chart(fig, use_container_width=True)

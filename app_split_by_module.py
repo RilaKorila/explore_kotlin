@@ -90,6 +90,26 @@ fig.update_layout(
 
 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
+# kotlin generator
+st.write("## kotlin (already deleted files): generator")
+
+fig = get_plot.heatmap_ordered_by_first_commit(
+    "data/kotlin/already_deleted_files/generator.csv"
+)
+fig.update_layout(
+    title="kotlin (already deleted files): generator",
+    xaxis=dict(
+        tickangle=45,  # x軸のラベルを45度回転
+        tickmode="array",
+        dtick=1,  # すべてのラベルを表示
+    ),
+    margin=dict(t=50, l=50, r=50, b=200),
+    height=800,
+    width=800,
+)
+
+st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
 
 ### Kotlin contributor
 st.write("## contributor linechart: compiler/fir")
